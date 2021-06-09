@@ -1,5 +1,8 @@
 package com.digitalhouse.obtenerdiploma.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CertificateDTO extends StudentDTO {
   private String message;
   private Double average;

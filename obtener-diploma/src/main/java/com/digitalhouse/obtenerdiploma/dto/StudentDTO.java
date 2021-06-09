@@ -1,18 +1,20 @@
 package com.digitalhouse.obtenerdiploma.dto;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 public class StudentDTO {
     @NotNull(message = "O nome é obrigatório")
     @Size(min=8,max = 50, message = "O nome do estudante deve ser maior que 8 e menor que 50.")
-    @Pattern(regexp = "[A-Za-z ]*", message = "O nome do estudante só pode conter letras")
+    @Pattern(regexp = "[\\p{L}\\s]*", message = "O nome do estudante só pode conter letras")
     private String name;
 
+
     @Valid
+    @NotEmpty(message = "Deve conter matérias")
     private List<SubjectDTO> subjects;
 
     public StudentDTO() {
