@@ -16,7 +16,12 @@ public class SubjectDTO {
   @Range(min = 0, max = 10, message = "O número da nota deve ser um inteiro entre 0 e 10")
   @NotNull(message = "Deve colocar nota")
   private Integer note;
-  
+
+  public SubjectDTO(String subject, Integer note) {
+    this.subject = subject;
+    this.note = note;
+  }
+
   public String getSubject() {
     return subject;
   }

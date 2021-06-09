@@ -20,6 +20,11 @@ public class StudentDTO {
     public StudentDTO() {
     }
 
+    public StudentDTO(String name, List<SubjectDTO> subjects) {
+        this.name = name;
+        this.subjects = subjects;
+    }
+
     public String getName() {
         return name;
     }

@@ -5,6 +5,9 @@ import com.digitalhouse.obtenerdiploma.dto.CertificateDTO;
 import com.digitalhouse.obtenerdiploma.dto.SubjectDTO;
 import org.springframework.stereotype.Service;
 
+import javax.validation.*;
+import java.util.Set;
+
 @Service
 public class CertificateServiceImpl implements CertificateService {
   public CertificateDTO analyzeNotes(StudentDTO notes) {
@@ -14,12 +17,12 @@ public class CertificateServiceImpl implements CertificateService {
     return response;
   }
 
-  private Double calculateAverage(StudentDTO notes) {
+  public Double calculateAverage(StudentDTO notes) {
     int sum = notes.getSubjects().stream().mapToInt(SubjectDTO::getNote).sum();
     return sum / (double) notes.getSubjects().size();
   }
 
-  private String writeDiploma(StudentDTO notes) {
+  public String writeDiploma(StudentDTO notes) {
     Double localAverage = calculateAverage(notes);
     String studentName = notes.getName();
     String message = studentName + " usted ha conseguido el promedio de " + localAverage;
@@ -28,7 +31,17 @@ public class CertificateServiceImpl implements CertificateService {
     return message;
   }
 
-  private String withHonors(Double localAverage, String localStudent) {
+  public String withHonors(Double localAverage, String localStudent) {
     return "¡Felicitaciones " + localStudent + "! Usted tiene el gran promedio de " + localAverage;
+  }
+
+  public void validate(StudentDTO notes) {
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<StudentDTO>> violations = validator.validate(notes);
+
+    if (!violations.isEmpty()) {
+      throw new ConstraintViolationException(violations);
+    }
   }
 }
